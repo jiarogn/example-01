@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        /* CSS样式 */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 300px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 8px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Login</h2>
+    <form id="loginForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <label for="blockchainId">Blockchain ID:</label>
+        <select id="blockchainId" name="blockchainId">
+            <option value="1">Blockchain 1</option>
+            <option value="2">Blockchain 2</option>
+            <option value="3">Blockchain 3</option>
+        </select>
+        <button type="submit">Login</button>
+    </form>
+</div>
+
+<script>
+    // JavaScript代码
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // 阻止表单默认提交行为
+
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        var blockchainId = document.getElementById("blockchainId").value;
+
+        // 创建JSON对象
+        var loginData = {
+            username: username,
+            password: password,
+            blockchainId: blockchainId
+        };
+
+        // 发送POST请求到后端
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/login", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    // 处理登录成功的逻辑
+                    window.location.href = "index.html"; // 登录成功后跳转
+                } else {
+                    // 处理登录失败的逻辑
+                    alert("登录失败，请检查用户名、密码和区块链ID是否正确。");
+                }
+            }
+        };
+        xhr.send(JSON.stringify(loginData));
+
+
+    });
+</script>
+</body>
+</html>

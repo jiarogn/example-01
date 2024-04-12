@@ -10,10 +10,14 @@
             <result property="password" column="password" jdbcType="VARCHAR"/>
             <result property="blockchainid" column="blockchainID" jdbcType="VARCHAR"/>
             <result property="account" column="Account" jdbcType="VARCHAR"/>
+            <result property="states" column="states" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         ID,username,password,
-        blockchainID,Account
+        blockchainID,Account,states,
+        create_time,update_time
     </sql>
 </mapper>

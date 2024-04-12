@@ -3,16 +3,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.example</groupId>
-    <artifactId>example-parent</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>example-app</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>example-parent</name>
-    <description>example-parent</description>
-    <modules>
-        <module>example-01</module>
-        <module>example-02</module>
-        <module>example-app</module>
-    </modules>
+    <name>example-app</name>
+    <description>example-app</description>
+    <parent>
+        <groupId>org.example</groupId>
+        <artifactId>example-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
     <properties>
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -20,26 +19,27 @@
         <spring-boot.version>2.6.13</spring-boot.version>
     </properties>
     <dependencies>
-        <!-- FISCO BCOS Java SDK -->
-        <!-- https://mvnrepository.com/artifact/org.fisco-bcos.java-sdk/fisco-bcos-java-sdk -->
         <dependency>
-            <groupId>org.fisco-bcos.java-sdk</groupId>
-            <artifactId>fisco-bcos-java-sdk</artifactId>
-            <version>2.9.0</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.33</version>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>3.4.3</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>2.2.2</version>
+        </dependency>
 
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -80,7 +80,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>org.example.exampleparent.ExampleParentApplication</mainClass>
+                    <mainClass>org.example.exampleapp.ExampleAppApplication</mainClass>
                     <skip>true</skip>
                 </configuration>
                 <executions>

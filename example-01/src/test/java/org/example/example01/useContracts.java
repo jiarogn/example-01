@@ -35,5 +35,6 @@ public class useContracts {
         // 查询HelloWorld合约的『name』函数，合约地址为helloWorldAddress，参数为空
         CallResponse callResponse = transactionProcessor.sendCallByContractLoader("Hello", response.getContractAddress(), "get", new ArrayList<>());
         System.out.println();
+
     }
 }

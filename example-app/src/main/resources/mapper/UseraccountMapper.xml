@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.exampleapp.mapper.UseraccountMapper">
+
+    <resultMap id="BaseResultMap" type="org.example.exampleapp.domain.Useraccount">
+            <id property="id" column="ID" jdbcType="INTEGER"/>
+            <result property="username" column="username" jdbcType="VARCHAR"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
+            <result property="blockchainid" column="blockchainID" jdbcType="VARCHAR"/>
+            <result property="account" column="Account" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,username,password,
+        blockchainID,Account
+    </sql>
+</mapper>

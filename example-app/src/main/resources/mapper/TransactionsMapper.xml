@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.exampleapp.mapper.TransactionsMapper">
+
+    <resultMap id="BaseResultMap" type="org.example.exampleapp.domain.Transactions">
+            <result property="transHash" column="trans_hash" jdbcType="VARCHAR"/>
+            <result property="fromBlock" column="from_block" jdbcType="VARCHAR"/>
+            <result property="toBlock" column="to_block" jdbcType="VARCHAR"/>
+            <result property="gas" column="gas" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        trans_hash,from_block,to_block,
+        gas
+    </sql>
+</mapper>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction List</title>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 1300px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #transactions-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        #transactions-table th, #transactions-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            word-wrap: break-word; /* Allow long words to be broken and wrap onto the next line */
+            max-width: 310px; /* Limit the width of each cell */
+        }
+        #transactions-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        #pagination {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .pagination-link {
+            display: inline-block;
+            margin: 0 5px;
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .pagination-link.active {
+            background-color: #45a049;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        #transactionHashInput {
+            margin-bottom: 10px;
+            width: 310px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="button-container">
+        <a href="transaction.html" class="button">发起交易</a>
+        <a href="authentication.html" class="button">临时认证</a>
+        <button class="button" onclick="queryTransaction()">查询交易</button>
+        <a href="login.html" class="button">退出登录</a>
+    </div>
+    <h1>Transaction List</h1>
+    <input type="text" id="transactionHashInput" placeholder="请输入交易的哈希值">
+    <table id="transactions-table">
+        <thead>
+        <tr>
+            <th>Transaction Hash</th>
+            <th>From Block</th>
+            <th>To Block</th>
+            <th>Gas</th>
+        </tr>
+        </thead>
+        <tbody id="transactions-body"></tbody>
+    </table>
+    <div id="pagination"></div>
+</div>
+
+<script>
+    // JavaScript代码
+    document.addEventListener("DOMContentLoaded", function() {
+        // Constants for pagination
+        const pageSize = 10; // Number of items per page
+        let currentPage = 1; // Current page number
+
+        // Function to fetch transactions from the backend
+        function fetchTransactions(page) {
+            fetch(`/transactions?pageNum=${page}&pageSize=${pageSize}`)
+                .then(response => response.json())
+                .then(data => {
+                    displayTransactions(data.records); // Assuming the transactions are returned in a 'records' property
+                    displayPagination(data.pages, page); // Assuming the total number of pages is returned in a 'pages' property
+                })
+                .catch(error => console.error('Error fetching transactions:', error));
+        }
+
+        // Function to display transactions
+        function displayTransactions(transactions) {
+            const transactionsBody = document.getElementById("transactions-body");
+            transactionsBody.innerHTML = ""; // Clear previous content
+            transactions.forEach(transaction => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${transaction.transHash}</td>
+                    <td>${transaction.fromBlock}</td>
+                    <td>${transaction.toBlock}</td>
+                    <td>${transaction.gas}</td>
+                `;
+                transactionsBody.appendChild(row);
+            });
+        }
+
+        // Function to display pagination
+        function displayPagination(totalPages, currentPage) {
+            const paginationDiv = document.getElementById("pagination");
+            paginationDiv.innerHTML = ""; // Clear previous content
+            for (let i = 1; i <= totalPages; i++) {
+                const pageLink = document.createElement("a");
+                pageLink.href = "#";
+                pageLink.textContent = i;
+                pageLink.classList.add("pagination-link");
+                if (i === currentPage) {
+                    pageLink.classList.add("active");
+                }
+                pageLink.addEventListener("click", function() {
+                    currentPage = i;
+                    fetchTransactions(currentPage);
+                });
+                paginationDiv.appendChild(pageLink);
+            }
+
+            // Add next page button
+            const nextPageButton = document.createElement("a");
+            nextPageButton.href = "#";
+            nextPageButton.textContent = "下一页";
+            nextPageButton.classList.add("pagination-link");
+            nextPageButton.addEventListener("click", function() {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    fetchTransactions(currentPage);
+                }
+            });
+            paginationDiv.appendChild(nextPageButton);
+        }
+
+        // Initial fetch for transactions
+        fetchTransactions(currentPage);
+    });
+
+    // Function to handle query transaction
+    function queryTransaction() {
+        const transactionHash = document.getElementById("transactionHashInput").value;
+        // Here you can implement the logic to query the transaction by its hash
+        // For now, let's just alert the hash value
+        alert("Querying transaction with hash: " + transactionHash);
+    }
+</script>
+</body>
+</html>

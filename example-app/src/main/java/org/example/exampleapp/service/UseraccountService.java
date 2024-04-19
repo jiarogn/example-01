@@ -2,6 +2,7 @@ package org.example.exampleapp.service;
 
 import org.example.exampleapp.domain.Useraccount;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.exampleapp.entity.AuthData;
 import org.example.exampleapp.entity.LoginRequest;
 
 /**
@@ -14,4 +15,6 @@ public interface UseraccountService extends IService<Useraccount> {
     boolean login(LoginRequest loginRequest);
 
     boolean search(String userAId, String userABlockchain);
+
+    String randomPassword(AuthData transactionData);
 }

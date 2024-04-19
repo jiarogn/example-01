@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.example.example01.account.Account;
 import org.example.exampleapp.domain.Useraccount;
+import org.example.exampleapp.entity.AuthData;
 import org.example.exampleapp.entity.LoginRequest;
 import org.example.exampleapp.service.UseraccountService;
 import org.example.exampleapp.mapper.UseraccountMapper;
@@ -57,6 +59,19 @@ public class UseraccountServiceImpl extends ServiceImpl<UseraccountMapper, Usera
             return true;
         }
         return false;
+    }
+
+    @Override
+    public String randomPassword(AuthData transactionData) {
+        //先查询用户
+        // 构造查询条件
+        QueryWrapper<Useraccount> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username", transactionData.getUserAId())
+                .eq("blockchainID",transactionData.getUserABlockchain());
+        // 查询数据库中对应的账户
+        Useraccount userA= baseMapper.selectOne(queryWrapper);
+
+        return null;
     }
 }
 

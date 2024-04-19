@@ -15,4 +15,6 @@ public class AuthData {
     private String userBId; //用户B的id
     private String userBBlockchain; //用户B所在区块链
     private String userBPublicKey; //用户B公钥
+    private String authenticationId;//本次认证的ID
+    private String role; // 角色信息
 }

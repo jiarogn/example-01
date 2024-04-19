@@ -76,15 +76,22 @@
         <a href="transaction-page.html" class="button">查询交易</a>
         <a href="login.html" class="button">退出登录</a>
     </div>
-    <h1>Transaction Form</h1>
+    <h1>临时认证登录</h1>
     <!-- Form for transaction submission -->
     <form id="transactionForm">
         <div class="form-group">
-            <label for="userAId">用户A账户ID:</label>
+            <label for="role">角色:</label>
+            <select id="role" name="role" required>
+                <option value="guarantor">担保人</option>
+                <option value="initiator">发起人</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="userAId">发起人用户名:</label>
             <input type="text" id="userAId" name="userAId" required>
         </div>
         <div class="form-group">
-            <label for="userABlockchain">用户A所在区块链:</label>
+            <label for="userABlockchain">发起人所在区块链:</label>
             <select id="userABlockchain" name="userABlockchain" required>
                 <option value="1">Blockchain 1</option>
                 <option value="2">Blockchain 2</option>
@@ -92,15 +99,15 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="userAPublicKey">用户A公钥:</label>
+            <label for="userAPublicKey">发起人公钥:</label>
             <input type="text" id="userAPublicKey" name="userAPublicKey" required>
         </div>
         <div class="form-group">
-            <label for="userBId">用户B账户ID:</label>
+            <label for="userBId">担保人用户名:</label>
             <input type="text" id="userBId" name="userBId" required>
         </div>
         <div class="form-group">
-            <label for="userBBlockchain">用户B所在区块链:</label>
+            <label for="userBBlockchain">担保人所在区块链:</label>
             <select id="userBBlockchain" name="userBBlockchain" required>
                 <option value="1">Blockchain 1</option>
                 <option value="2">Blockchain 2</option>
@@ -108,8 +115,12 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="userBPublicKey">用户B公钥:</label>
+            <label for="userBPublicKey">担保人公钥:</label>
             <input type="text" id="userBPublicKey" name="userBPublicKey" required>
+        </div>
+        <div class="form-group" id="initiatorFields" style="display: none;">
+            <label for="authenticationId">本次认证id:</label>
+            <input type="text" id="authenticationId" name="authenticationId">
         </div>
         <div class="button-container">
             <button type="submit" class="button">提交</button>
@@ -159,6 +170,17 @@
                     alert("Failed to submit transaction. Please try again later.");
                 });
 
+        });
+
+        // Show or hide initiator fields based on selected role
+        document.getElementById("role").addEventListener("change", function () {
+            const role = this.value;
+            const initiatorFields = document.getElementById("initiatorFields");
+            if (role === "initiator") {
+                initiatorFields.style.display = "block";
+            } else {
+                initiatorFields.style.display = "none";
+            }
         });
     });
 </script>

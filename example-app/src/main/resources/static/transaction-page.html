@@ -88,7 +88,8 @@
     <div class="button-container">
         <a href="transaction.html" class="button">发起交易</a>
         <a href="authentication.html" class="button">临时认证</a>
-        <button class="button" onclick="queryTransaction()">查询交易</button>
+        <a class="button" onclick="queryTransaction()">查询交易</a>
+<!--        <button class="button" onclick="queryTransaction()">查询交易</button>-->
         <a href="login.html" class="button">退出登录</a>
     </div>
     <h1>Transaction List</h1>
@@ -183,7 +184,7 @@
         const transactionHash = document.getElementById("transactionHashInput").value;
         // Here you can implement the logic to query the transaction by its hash
         // For now, let's just alert the hash value
-        alert("Querying transaction with hash: " + transactionHash);
+        alert("使用交易的哈希值查询交易：" + transactionHash);
     }
 </script>
 </body>

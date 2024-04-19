@@ -43,6 +43,21 @@ public class UseraccountServiceImpl extends ServiceImpl<UseraccountMapper, Usera
             return false;
         }
     }
+
+    //检查用户A是否存在
+    @Override
+    public boolean search(String userAId, String userABlockchain) {
+        // 构造查询条件
+        QueryWrapper<Useraccount> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username", userAId)
+                .eq("blockchainID", userABlockchain);
+        // 查询数据库中是否存在对应的账户
+        int count = baseMapper.selectCount(queryWrapper);
+        if(count>0){
+            return true;
+        }
+        return false;
+    }
 }
 
 

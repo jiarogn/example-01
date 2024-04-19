@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Form</title>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 500px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="button-container">
+        <a href="transaction.html" class="button">发起交易</a>
+        <a href="authentication.html" class="button">临时认证</a>
+        <a href="transaction-page.html" class="button">查询交易</a>
+        <a href="login.html" class="button">退出登录</a>
+    </div>
+    <h1>Transaction Form</h1>
+    <!-- Form for transaction submission -->
+    <form id="transactionForm">
+        <div class="form-group">
+            <label for="userAId">用户A账户ID:</label>
+            <input type="text" id="userAId" name="userAId" required>
+        </div>
+        <div class="form-group">
+            <label for="userABlockchain">用户A所在区块链:</label>
+            <select id="userABlockchain" name="userABlockchain" required>
+                <option value="1">Blockchain 1</option>
+                <option value="2">Blockchain 2</option>
+                <option value="3">Blockchain 3</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="userAPublicKey">用户A公钥:</label>
+            <input type="text" id="userAPublicKey" name="userAPublicKey" required>
+        </div>
+        <div class="form-group">
+            <label for="userBId">用户B账户ID:</label>
+            <input type="text" id="userBId" name="userBId" required>
+        </div>
+        <div class="form-group">
+            <label for="userBBlockchain">用户B所在区块链:</label>
+            <select id="userBBlockchain" name="userBBlockchain" required>
+                <option value="1">Blockchain 1</option>
+                <option value="2">Blockchain 2</option>
+                <option value="3">Blockchain 3</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="userBPublicKey">用户B公钥:</label>
+            <input type="text" id="userBPublicKey" name="userBPublicKey" required>
+        </div>
+        <div class="button-container">
+            <button type="submit" class="button">提交</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    // JavaScript代码
+    document.addEventListener("DOMContentLoaded", function () {
+        // Function to handle form submission
+        document.getElementById("transactionForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Fetch form data
+            const formData = new FormData(event.target);
+
+            // Construct JSON object from form data
+            const transactionData = {};
+            formData.forEach((value, key) => {
+                transactionData[key] = value;
+            });
+
+            // Send transaction data to the backend (you can customize this part according to your backend setup)
+            fetch('/submit-transaction', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(transactionData),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // 如果后台返回的 success 字段为 true，则弹出成功信息；否则弹出错误信息
+                    if (data.success) {
+                        alert(data.msg); // 弹出成功信息
+                        // 如果后台返回了数据，则将数据以弹出窗口的形式显示出来
+                        if (data.data) {
+                            alert(JSON.stringify(data.data)); // 弹出数据
+                        }
+                    } else {
+                        alert(data.msg); // 弹出错误信息
+                    }
+                })
+                .catch(error => {
+                    console.error('Error submitting transaction:', error);
+                    alert("Failed to submit transaction. Please try again later.");
+                });
+
+        });
+    });
+</script>
+</body>
+</html>

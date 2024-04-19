@@ -12,4 +12,6 @@ import org.example.exampleapp.entity.LoginRequest;
 public interface UseraccountService extends IService<Useraccount> {
 
     boolean login(LoginRequest loginRequest);
+
+    boolean search(String userAId, String userABlockchain);
 }

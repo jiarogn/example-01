@@ -14,7 +14,7 @@ public interface UseraccountService extends IService<Useraccount> {
 
     boolean login(LoginRequest loginRequest);
 
-    boolean search(String userAId, String userABlockchain);
+    boolean search(String userId, String userBlockchain);
 
     String randomPassword(AuthData transactionData);
 }

@@ -22,19 +22,28 @@ public class authenticationController {
     public Response<String> submitTransaction(@RequestBody AuthData authData){
         //先判断账户是否合法
         log.info("发起人：{} - {}，担保人用户：{} - {}",authData.getUserAId(),authData.getUserABlockchain(),authData.getUserBId(),authData.getUserBBlockchain());
-        //先查询用户
+        //先查询用户：这里用的区块链ID是承担人的区块链ID
         if(!useraccountService.search(authData.getUserAId(),authData.getUserBBlockchain())){
             return Response.buildFailure("-1","发起人没有合法跨链账户！");
         }
+        //查询用户
+        if(!useraccountService.search(authData.getUserAId(),authData.getUserABlockchain())){
+            return Response.buildFailure("-1","发起人人没有合法账户！");
+        }
+        if(!useraccountService.search(authData.getUserBId(),authData.getUserBBlockchain())){
+            return Response.buildFailure("-1","承担人没有合法账户！");
+        }
+
+
 
         //判断是发起人还是担保人
         String role = authData.getRole();
         log.info("当前用户角色：{}",role);
         if ("guarantor".equals(role)) {
             // 处理担保人的逻辑
-            guarantorRole(authData);
+            String ciphertext= guarantorRole(authData);
             // 这里可以调用相应的服务方法来处理担保人的提交
-            return Response.buildSuccess("success", "提交成功", null);
+            return Response.buildSuccess("success", "重置密码成功", ciphertext);
         } else if ("initiator".equals(role)) {
             // 处理发起人的逻辑
 
@@ -44,14 +53,11 @@ public class authenticationController {
         return Response.buildFailure("-100","未知用户角色！");
     }
 
-    public Response<String> guarantorRole(AuthData authData){
+    public String guarantorRole(AuthData authData){
         log.info("当前用户：{} - {}，请求用户：{} - {}",authData.getUserBId(),authData.getUserBBlockchain(),authData.getUserAId(),authData.getUserABlockchain());
         //1.调用智能合约，Contract(AID,BID)返回AuthID
-
         //2.重置密码
-        String ciphertext = useraccountService.randomPassword(authData);
-
-        return null;
+        return useraccountService.randomPassword(authData);
     }
 
     //3.用户A登录原本的区块链

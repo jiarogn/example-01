@@ -10,10 +10,12 @@ import org.example.exampleapp.entity.AuthData;
 import org.example.exampleapp.entity.LoginRequest;
 import org.example.exampleapp.service.UseraccountService;
 import org.example.exampleapp.mapper.UseraccountMapper;
+import org.example.exampleapp.utils.Sm3Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Random;
 
 /**
 * @author 123
@@ -29,7 +31,7 @@ public class UseraccountServiceImpl extends ServiceImpl<UseraccountMapper, Usera
     @Override
     public boolean login(LoginRequest loginRequest) {
         String username=loginRequest.getUsername();
-        String password=loginRequest.getPassword();
+        String password=Sm3Util.sm3Hex(loginRequest.getPassword().getBytes());
         String blockchainId=loginRequest.getBlockchainId();
         QueryWrapper<Useraccount> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("blockchainID", blockchainId).eq("username", username);
@@ -70,6 +72,13 @@ public class UseraccountServiceImpl extends ServiceImpl<UseraccountMapper, Usera
                 .eq("blockchainID",transactionData.getUserABlockchain());
         // 查询数据库中对应的账户
         Useraccount userA= baseMapper.selectOne(queryWrapper);
+
+        //生成一个随机的六位数作为密码
+        // 创建 Random 对象
+        Random random = new Random();
+        // 生成随机的六位数
+        int randomNumber = random.nextInt(900000) + 100000; // 生成 [100000, 999999] 范围内的随机数
+
 
         return null;
     }

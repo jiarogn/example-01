@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.example.example01.GetTransaction1;
+import org.example.exampleapp.chain2.GetTransactionsTest;
 import org.example.exampleapp.domain.Transactions;
 import org.example.exampleapp.entity.TransactionsApp;
 import org.example.exampleapp.service.TransactionsService;
@@ -40,9 +41,9 @@ public class TransactionsServiceImpl extends ServiceImpl<TransactionsMapper, Tra
         switch (blockchainId){
             case "1":
                 // 创建一个 GetTransaction 对象
-                GetTransaction1 getTransaction = new GetTransaction1();
+                GetTransaction1 getTransaction1 = new GetTransaction1();
                 // 调用 getAllTransaction() 方法获取交易列表
-                transactionsExample1 = getTransaction.getAllTransaction1();
+                transactionsExample1 = getTransaction1.getAllTransaction1();
                 // 遍历 transactionsExample1 列表，进行转换并添加到 transactionsExample 中
                 for (org.example.example01.Transactions1 transaction1 : transactionsExample1) {
                     TransactionsApp transactionApp = new TransactionsApp(
@@ -55,6 +56,10 @@ public class TransactionsServiceImpl extends ServiceImpl<TransactionsMapper, Tra
                 }
                 break;
             case "2":
+                // 创建一个 GetTransaction 对象
+                GetTransactionsTest getTransactionsTest=new GetTransactionsTest();
+                // 调用 getAllTransaction() 方法获取交易列表
+                System.out.println("初始化成功？");
                 break;
             default:
                 return null;

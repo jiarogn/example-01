@@ -23,7 +23,7 @@ public class tradesController {
             @RequestParam(defaultValue = "1") int pageNum,
             @RequestParam(defaultValue = "10") int pageSize) {
         log.info("分页查询请求：pageNum:{},pageSize:{}",pageNum,pageSize);
-        String blockchainId="1";
+        String blockchainId="2";
         Page<Transactions> pages=transactionsService.getTransactions(blockchainId,pageNum, pageSize);
         return pages;
     }

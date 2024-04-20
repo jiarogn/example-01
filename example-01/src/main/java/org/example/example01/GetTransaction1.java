@@ -43,7 +43,6 @@ public class GetTransaction1 {
                     .map(receipt -> new Transactions1(receipt.getTransactionHash(), receipt.getFrom(), receipt.getTo(), receipt.getGasUsed()))
                     .collect(Collectors.toList()));
             System.out.println(i);
-
             i--;
         }
         return transactions;

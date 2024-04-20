@@ -4,8 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.example.example01.GetTransaction;
+import org.example.example01.GetTransaction1;
 import org.example.exampleapp.domain.Transactions;
+import org.example.exampleapp.entity.TransactionsApp;
 import org.example.exampleapp.service.TransactionsService;
 import org.example.exampleapp.mapper.TransactionsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,16 +33,26 @@ public class TransactionsServiceImpl extends ServiceImpl<TransactionsMapper, Tra
     public Page<Transactions> getTransactions(String blockchainId, int pageNum, int pageSize) {
         //清空当前数据库
         transactionsMapper.delete(null);
-
-        List<org.example.example01.Transactions> transactionsExample=new ArrayList<>();
+        List<TransactionsApp> transactionsExample=new ArrayList<>();
+        List<org.example.example01.Transactions1> transactionsExample1=new ArrayList<>();
 
         //根据blockchainid来选择查询哪个区块链中的数据
         switch (blockchainId){
             case "1":
                 // 创建一个 GetTransaction 对象
-                GetTransaction getTransaction = new GetTransaction();
+                GetTransaction1 getTransaction = new GetTransaction1();
                 // 调用 getAllTransaction() 方法获取交易列表
-                transactionsExample = getTransaction.getAllTransaction();
+                transactionsExample1 = getTransaction.getAllTransaction1();
+                // 遍历 transactionsExample1 列表，进行转换并添加到 transactionsExample 中
+                for (org.example.example01.Transactions1 transaction1 : transactionsExample1) {
+                    TransactionsApp transactionApp = new TransactionsApp(
+                            transaction1.getTransHash(),
+                            transaction1.getFrom(),
+                            transaction1.getTo(),
+                            transaction1.getGas()
+                    );
+                    transactionsExample.add(transactionApp);
+                }
                 break;
             case "2":
                 break;
@@ -59,6 +70,7 @@ public class TransactionsServiceImpl extends ServiceImpl<TransactionsMapper, Tra
                     return transactionApp;
                 })
                 .collect(Collectors.toList());
+
         // 使用 Lambda 表达式将交易信息逐个存入数据库
         transactionsApp.forEach(transaction -> {
             Transactions entity = new Transactions();

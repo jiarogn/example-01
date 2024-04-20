@@ -1,17 +1,14 @@
-package org.example.example01;
+package org.example.exampleapp.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
-
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Transactions{
+public class TransactionsApp {
     /**
      * 交易的哈希值
      */

@@ -15,7 +15,7 @@ import java.util.List;
 
 @SpringBootTest
 public class getAllTransactions {
-    String configFile="src/main/resources/static/config-example.toml";
+    String configFile="D:\\学习\\大四下\\毕业设计\\FISCO_BCOS\\example-parent\\example-02\\src\\main\\resources\\static\\config-example.toml";
     // 初始化BcosSDK
     BcosSDK sdk =  BcosSDK.build(configFile);
     // 为群组1初始化client
